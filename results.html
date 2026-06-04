@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Voting Results Dashboard</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<!-- Background Lights -->
+
+<div class="bg-light light1"></div>
+
+<div class="bg-light light2"></div>
+
+<div class="bg-light light3"></div>
+
+<!-- Main Container -->
+
+<div class="container">
+
+    <!-- Logo -->
+
+    <div class="logo">📊</div>
+
+    <!-- Hero Image -->
+
+    <img 
+        src="https://cdn-icons-png.flaticon.com/512/3135/3135789.png"
+        class="hero-image"
+    >
+
+    <!-- Heading -->
+
+    <h1>Live Results</h1>
+
+    <!-- Subtitle -->
+
+    <p class="subtitle">
+
+        Real-Time Election Analytics Dashboard
+
+    </p>
+
+    <!-- Popup -->
+
+    <div class="welcome-popup">
+
+        🚀 Results are updating live from Firestore Database
+
+    </div>
+
+    <!-- Chart -->
+
+    <canvas id="chart"></canvas>
+
+    <!-- Info Cards -->
+
+    <div class="info-boxes">
+
+        <div class="info-card">
+
+            <h2 id="totalVotes">0</h2>
+
+            <p>Total Votes</p>
+
+        </div>
+
+        <div class="info-card">
+
+            <h2>Live</h2>
+
+            <p>Database</p>
+
+        </div>
+
+        <div class="info-card">
+
+            <h2>100%</h2>
+
+            <p>Secure</p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Footer -->
+
+<div class="footer">
+
+    Secure Analytics Dashboard • Firebase Powered
+
+</div>
+
+<!-- Firebase + Chart Logic -->
+
+<script type="module">
+
+import { db } from "./firebase.js";
+
+import {
+
+collection,
+getDocs
+
+}
+
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// Fetch Votes
+
+const snapshot = await getDocs(collection(db,"votes"));
+
+// Vote Counters
+
+let candidate1 = 0;
+let candidate2 = 0;
+let candidate3 = 0;
+
+// Count Votes
+
+snapshot.forEach((doc)=>{
+
+    const data = doc.data();
+
+    if(data.candidate === "Candidate 1") candidate1++;
+
+    if(data.candidate === "Candidate 2") candidate2++;
+
+    if(data.candidate === "Candidate 3") candidate3++;
+
+});
+
+// Total Votes
+
+const totalVotes = candidate1 + candidate2 + candidate3;
+
+document.getElementById("totalVotes").innerText = totalVotes;
+
+// Create Chart
+
+new Chart(document.getElementById("chart"), {
+
+    type:"bar",
+
+    data:{
+
+        labels:["Candidate 1","Candidate 2","Candidate 3"],
+
+        datasets:[{
+
+            label:"Votes",
+
+            data:[candidate1,candidate2,candidate3],
+
+            backgroundColor:[
+
+                "#00c2ff",
+
+                "#0044ff",
+
+                "#00ffaa"
+
+            ],
+
+            borderRadius:15
+
+        }]
+
+    },
+
+    options:{
+
+        responsive:true,
+
+        plugins:{
+
+            legend:{
+
+                labels:{
+                    color:"white"
+                }
+            }
+        },
+
+        scales:{
+
+            y:{
+
+                ticks:{
+                    color:"white"
+                },
+
+                grid:{
+                    color:"rgba(255,255,255,0.1)"
+                }
+            },
+
+            x:{
+
+                ticks:{
+                    color:"white"
+                },
+
+                grid:{
+                    color:"rgba(255,255,255,0.05)"
+                }
+            }
+        }
+    }
+});
+
+</script>
+
+<!-- 3D Hover Animation -->
+
+<script>
+
+const container = document.querySelector('.container');
+
+container.addEventListener('mousemove',(e)=>{
+
+    const x = e.clientX / window.innerWidth;
+
+    const y = e.clientY / window.innerHeight;
+
+    container.style.transform = `
+        rotateY(${(x - 0.5) * 10}deg)
+        rotateX(${(0.5 - y) * 10}deg)
+    `;
+});
+
+container.addEventListener('mouseleave',()=>{
+
+    container.style.transform = 'rotateY(0deg) rotateX(0deg)';
+});
+
+</script>
+
+</body>
+
+</html>

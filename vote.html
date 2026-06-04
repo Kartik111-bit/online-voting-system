@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Cast Your Vote</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<!-- Background Lights -->
+
+<div class="bg-light light1"></div>
+
+<div class="bg-light light2"></div>
+
+<div class="bg-light light3"></div>
+
+<!-- Main Container -->
+
+<div class="container">
+
+    <!-- Logo -->
+
+    <div class="logo">🗳️</div>
+
+    <!-- Hero Image -->
+
+    <img 
+        src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+        class="hero-image"
+    >
+
+    <!-- Heading -->
+
+    <h1>Cast Your Vote</h1>
+
+    <!-- Subtitle -->
+
+    <p class="subtitle">
+
+        Secure Digital Election Portal
+
+    </p>
+
+    <!-- Popup -->
+
+    <div class="welcome-popup">
+
+        🔒 One Person • One Secure Vote
+
+    </div>
+
+    <!-- Candidate Buttons -->
+
+    <button class="vote-btn" onclick="vote('Candidate 1')">
+
+        🔥 Candidate 1
+
+    </button>
+
+    <button class="vote-btn" onclick="vote('Candidate 2')">
+
+        ⚡ Candidate 2
+
+    </button>
+
+    <button class="vote-btn" onclick="vote('Candidate 3')">
+
+        🌟 Candidate 3
+
+    </button>
+
+    <!-- Info Cards -->
+
+    <div class="info-boxes">
+
+        <div class="info-card">
+
+            <h2>3</h2>
+
+            <p>Candidates</p>
+
+        </div>
+
+        <div class="info-card">
+
+            <h2>Live</h2>
+
+            <p>Tracking</p>
+
+        </div>
+
+        <div class="info-card">
+
+            <h2>Safe</h2>
+
+            <p>Voting</p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Footer -->
+
+<div class="footer">
+
+    Enterprise Grade Voting Security • Firebase Powered
+
+</div>
+
+<!-- Firebase Voting Logic -->
+
+<script type="module">
+
+import { db, auth } from "./firebase.js";
+
+import {
+
+collection,
+addDoc,
+getDocs,
+query,
+where
+
+}
+
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// Vote Function
+
+window.vote = async function(candidate){
+
+    const user = auth.currentUser;
+
+    if(!user){
+
+        alert("Please login first");
+
+        return;
+    }
+
+    try{
+
+        // Check if user already voted
+
+        const q = query(
+
+            collection(db, "votes"),
+
+            where("email", "==", user.email)
+
+        );
+
+        const querySnapshot = await getDocs(q);
+
+        if(!querySnapshot.empty){
+
+            alert("⚠️ You already voted!");
+
+            return;
+        }
+
+        // Save Vote
+
+        await addDoc(collection(db, "votes"), {
+
+            email:user.email,
+
+            candidate:candidate
+
+        });
+
+        // Success Animation
+
+        document.body.style.opacity = "0.7";
+
+        setTimeout(()=>{
+
+            alert("🎉 Vote Submitted Successfully!");
+
+            window.location.href = "results.html";
+
+        },500);
+
+    }
+
+    catch(error){
+
+        alert(error.message);
+
+    }
+
+}
+
+</script>
+
+<!-- 3D Hover Animation -->
+
+<script>
+
+const container = document.querySelector('.container');
+
+container.addEventListener('mousemove',(e)=>{
+
+    const x = e.clientX / window.innerWidth;
+
+    const y = e.clientY / window.innerHeight;
+
+    container.style.transform = `
+        rotateY(${(x - 0.5) * 10}deg)
+        rotateX(${(0.5 - y) * 10}deg)
+    `;
+});
+
+container.addEventListener('mouseleave',()=>{
+
+    container.style.transform = 'rotateY(0deg) rotateX(0deg)';
+});
+
+</script>
+
+</body>
+
+</html>

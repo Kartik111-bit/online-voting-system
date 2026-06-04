@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Online Voting System</title>
+
+    <!-- Google Font -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<!-- 3D Background Lights -->
+
+<div class="bg-light light1"></div>
+
+<div class="bg-light light2"></div>
+
+<div class="bg-light light3"></div>
+
+<!-- Main Container -->
+
+<div class="container">
+
+    <!-- Logo -->
+
+    <div class="logo">🗳️</div>
+
+    <!-- Professional Hero Image -->
+
+    <img 
+        src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+        class="hero-image"
+    >
+
+    <!-- Heading -->
+
+    <h1>Online Voting</h1>
+
+    <!-- Subtitle -->
+
+    <p class="subtitle">
+
+        Secure • Smart • Professional Digital Election System
+
+    </p>
+
+    <!-- Welcome Popup -->
+
+    <div class="welcome-popup">
+
+        🔒 Enterprise Grade Secure Voting Platform
+
+    </div>
+
+    <!-- Email -->
+
+    <input 
+        type="email"
+        id="email"
+        placeholder="Enter Email"
+    >
+
+    <!-- Password -->
+
+    <input 
+        type="password"
+        id="password"
+        placeholder="Enter Password"
+    >
+
+    <!-- Login Button -->
+
+    <button id="loginBtn">
+
+        🚀 Login Securely
+
+    </button>
+
+    <!-- Register Button -->
+
+    <button id="registerBtn">
+
+        ✨ Create Account
+
+    </button>
+
+    <!-- Information Cards -->
+
+    <div class="info-boxes">
+
+        <div class="info-card">
+
+            <h2>100%</h2>
+
+            <p>Secure</p>
+
+        </div>
+
+        <div class="info-card">
+
+            <h2>24/7</h2>
+
+            <p>Access</p>
+
+        </div>
+
+        <div class="info-card">
+
+            <h2>Live</h2>
+
+            <p>Analytics</p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Footer -->
+
+<div class="footer">
+
+    Powered by Firebase • Secure Digital Democracy
+
+</div>
+
+<!-- App JS -->
+
+<script type="module" src="app.js"></script>
+
+<!-- 3D Hover Animation -->
+
+<script>
+
+const container = document.querySelector('.container');
+
+container.addEventListener('mousemove',(e)=>{
+
+    const x = e.clientX / window.innerWidth;
+
+    const y = e.clientY / window.innerHeight;
+
+    container.style.transform = `
+        rotateY(${(x - 0.5) * 10}deg)
+        rotateX(${(0.5 - y) * 10}deg)
+    `;
+});
+
+container.addEventListener('mouseleave',()=>{
+
+    container.style.transform = 'rotateY(0deg) rotateX(0deg)';
+});
+
+</script>
+
+</body>
+
+</html>
